@@ -7,24 +7,32 @@ console.log(parsed.colorTable.readUInt32LE(0));
 
 const parsed =  bitmapParser.parse(buffer);
 
-// make things red
+// make things have a red shade
 filter.red = (buffer) => {
   for (let i = 0; i < parsed.colorTable.length; i += 4) {
-
-    buffer[i + 1] = (i + 1) + (255 - (i + 1)) ; //! Vinicio - Red
-    buffer[i + 2] = i ; //! Vinicio - Green
-    buffer[i + 3] = i ; //! Vinicio  - Blue
+    parsed.colorTable[i + 1] = (i + 1) + (255 - (i + 1));
+    parsed.colorTable[i + 2] = (i + 2) ;
+    parsed.colorTable[i + 3] = (i + 3) ;
   }
 };
-
 
 // make things white
 filter.white = (buffer) => {
   for (let i = 0; i < parsed.colorTable.length; i += 4) {
 
-    buffer[i + 1] = (i + 1) + (255 - (i + 1)); //! Vinicio - Red
-    buffer[i + 2] = (i + 2) + (255 - (i + 2)); //! Vinicio - Green
-    buffer[i + 3] = (i + 3) + (255 - (i + 3)); //! Vinicio  - Blue
+    parsed.colorTable[i + 1] = (i + 1) + (255 - (i + 1));
+    parsed.colorTable[i + 2] = (i + 2) + (255 - (i + 2));
+    parsed.colorTable[i + 3] = (i + 3) + (255 - (i + 3));
+  }
+};
+
+// make things have inverted colors.
+filter.invert = (buffer) => {
+  for (let i = 0; i < parsed.colorTable.length; i += 4) {
+
+    parsed.colorTable[i + 1] = (i + 1) % 255;
+    parsed.colorTable[i + 2] = (i + 2) % 255;
+    parsed.colorTable[i + 3] = (i + 3) % 255;
   }
 };
 
