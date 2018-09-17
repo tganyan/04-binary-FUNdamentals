@@ -1,17 +1,32 @@
 'use strict';
 const fs = require('fs');
 const bitmapParser = require('./bitmap-parser');
+const filter = module.exports = {};
 
-let r = parseInt('ff', 16);
+console.log(parsed.colorTable.readUInt32LE(0));
 
-// for (let i = 0; i < buffer.length / 3; i + = 3) {
-//
-//   buffer[i] = i % 255; //! Vinicio - Red
-//   buffer[i + 1] = i % 255; //! Vinicio - Green
-//   buffer[i + 2] = i % 255; //! Vinicio  - Blue
-//   buffer[i] = 255; //! Vinicio - Red
-//   buffer[i + 1] = 0; //! Vinicio - Green
-//   buffer[i + 2] = 0; //! Vinicio  - Blue
-// }
-// console.log(buffer.toString());
-// });
+const parsed =  bitmapParser.parse(buffer);
+
+// make things red
+filter.red = (buffer) => {
+  for (let i = 0; i < parsed.colorTable.length; i += 4) {
+
+    buffer[i + 1] = (i + 1) + (255 - (i + 1)) ; //! Vinicio - Red
+    buffer[i + 2] = i ; //! Vinicio - Green
+    buffer[i + 3] = i ; //! Vinicio  - Blue
+  }
+};
+
+
+// make things white
+filter.white = (buffer) => {
+  for (let i = 0; i < parsed.colorTable.length; i += 4) {
+
+    buffer[i + 1] = (i + 1) + (255 - (i + 1)); //! Vinicio - Red
+    buffer[i + 2] = (i + 2) + (255 - (i + 2)); //! Vinicio - Green
+    buffer[i + 3] = (i + 3) + (255 - (i + 3)); //! Vinicio  - Blue
+  }
+};
+
+
+
