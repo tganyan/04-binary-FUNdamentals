@@ -2,6 +2,8 @@
 const fs = require('fs');
 const bitmapParser = require('./bitmap-parser');
 
+const filter = module.exports = {};
+
 let r = parseInt('ff', 16);
 
 // for (let i = 0; i < buffer.length / 3; i + = 3) {
