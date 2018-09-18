@@ -16,13 +16,17 @@ readWriter.generate = (baseImg, generatedImg, transform) => {
       throw error;
     }
 
-    fs.writeFile(`../data/${generatedImg}`, buffer, (error) => {
+    let transformedBuffer = filter.transform(buffer);
+
+    fs.writeFile(`../data/${generatedImg}`, transformedBuffer, (error) => {
       if (error) {
         throw error;
       }
-      filter.transform(buffer);
+
     });
 
   });
 };
+
+readWriter.generate(baseImg, generatedImg, transform);
 
